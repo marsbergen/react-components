@@ -17,7 +17,7 @@ gulp.task('clean', function () {
   ]);
 });
 
-gulp.task('copy:html', ['clean'], function () {
+gulp.task('copy:app', ['clean'], function () {
   return gulp.src('app/**/*')
     .pipe(gulp.dest('.tmp'))
     .pipe(connect.reload());
@@ -29,14 +29,14 @@ gulp.task('copy:js', ['build'], function () {
     .pipe(connect.reload());
 });
 
-gulp.task('connect', ['clean', 'copy:html', 'build', 'copy:js'], function () {
+gulp.task('connect', ['clean', 'copy:app', 'build', 'copy:js'], function () {
     connect.server({
         root: '.tmp',
         livereload: true
     })
 });
 
-gulp.task('build', ['clean', 'copy:html'], function () {
+gulp.task('build', ['clean', 'copy:app'], function () {
     return browserify({entries: 'src/app.jsx', extensions: ['.jsx'], debug: true})
         .transform(babelify)
         .bundle()
@@ -45,9 +45,9 @@ gulp.task('build', ['clean', 'copy:html'], function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['build', 'copy:js', 'connect'], function () {
-    gulp.watch('src/**/*.jsx', ['build', 'copy:js']);
-    gulp.watch('app/**/*', ['copy:html']);
+gulp.task('watch', ['clean', 'copy:app', 'build', 'copy:js', 'connect'], function () {
+  gulp.watch('src/**/*.jsx', ['clean', 'copy:app', 'build', 'copy:js']);
+  gulp.watch('app/**/*', ['copy:app']);
 });
 
 gulp.task('default', ['watch']);

@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 
-import {ButtonComponent} from './Components/Button';
+import {ButtonPage} from './pages/button';
 
-ReactDOM.render(<ButtonComponent name="Patrick" />, document.getElementById("container"));
+ReactDOM.render(<div>
+  <ButtonPage />
+</div>, document.getElementById("container"));
