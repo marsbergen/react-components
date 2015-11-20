@@ -46,7 +46,7 @@ gulp.task('build', ['clean', 'copy:app'], function () {
 });
 
 gulp.task('watch', ['clean', 'copy:app', 'build', 'copy:js', 'connect'], function () {
-  gulp.watch('src/**/*.jsx', ['clean', 'copy:app', 'build', 'copy:js']);
+  gulp.watch('src/**/*.jsx', ['copy:js']);
   gulp.watch('app/**/*', ['copy:app']);
 });
 

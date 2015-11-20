@@ -1,9 +1,8 @@
 import React from "react";
 
-import {ButtonComponent} from "../components/Button";
+import {ButtonComponent} from "../../components/Button";
 
-export class ButtonPage extends React.Component {
-
+export class Button extends React.Component {
   constructor(props) {
     super(props);
 

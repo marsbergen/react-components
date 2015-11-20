@@ -1,8 +1,15 @@
-import React from "react";
-import ReactDOM from 'react-dom';
+import React from 'react';
+import {render} from 'react-dom'
 
-import {ButtonPage} from './pages/button';
+import {Router, Route} from 'react-router'
 
-ReactDOM.render(<div>
-  <ButtonPage />
-</div>, document.getElementById("container"));
+import {Styleguide} from "./docs/includes/Styleguide";
+import {Button} from './docs/pages/Button';
+
+render((
+  <Router>
+    <Route path="/" component={Styleguide}>
+      <Route path="/buttons" component={Button} />
+    </Route>
+  </Router>
+), document.getElementById('container'));
