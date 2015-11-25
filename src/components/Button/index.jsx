@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import classNames from 'classnames';
 
 export class ButtonComponent extends React.Component {
 
@@ -17,7 +18,8 @@ export class ButtonComponent extends React.Component {
     return {
       href: props.href || undefined,
       onClick: props.onClick || undefined,
-      value: props.value || this.props.children
+      value: props.value || this.props.children,
+      className: props.className
     };
   }
 
@@ -26,9 +28,14 @@ export class ButtonComponent extends React.Component {
   }
 
   render() {
+    var className = classNames([
+      'button',
+      this.state.className
+    ]);
+
     return <a onClick={this.onClick.bind(this)}
               href={this.state.href}
-              className="button">{this.state.value}</a>;
+              className={className}>{this.state.value}</a>;
   }
 }
 

@@ -10,44 +10,54 @@ var watchify = require('watchify');
 var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 
+var files = {
+  mainFile: 'src/app.jsx',
+  bundleFile: 'bundle.js',
+  appDir: 'app',
+  srcDir: 'src',
+  tmpDir: '.tmp',
+  distDir: 'dist',
+  allFiles: '/**/*'
+};
+
 gulp.task('clean', function () {
   return del([
-    'dist',
+    files.distDir,
     '.tmp'
   ]);
 });
 
 gulp.task('copy:app', ['clean'], function () {
-  return gulp.src('app/**/*')
-    .pipe(gulp.dest('.tmp'))
+  return gulp.src(files.appDir + files.allFiles)
+    .pipe(gulp.dest(files.tmpDir))
     .pipe(connect.reload());
 });
 
-gulp.task('copy:js', ['build'], function () {
-  return gulp.src('dist/**/*')
-    .pipe(gulp.dest('.tmp'))
+gulp.task('copy:dist', ['build'], function () {
+  return gulp.src(files.distDir + files.allFiles)
+    .pipe(gulp.dest(files.tmpDir))
     .pipe(connect.reload());
 });
 
-gulp.task('connect', ['clean', 'copy:app', 'build', 'copy:js'], function () {
+gulp.task('connect', ['clean', 'copy:app', 'build', 'copy:dist'], function () {
     connect.server({
-        root: '.tmp',
+        root: files.tmpDir,
         livereload: true
     })
 });
 
 gulp.task('build', ['clean', 'copy:app'], function () {
-    return browserify({entries: 'src/app.jsx', extensions: ['.jsx'], debug: true})
+    return browserify({entries: files.mainFile, extensions: ['.jsx'], debug: true})
         .transform(babelify)
         .bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest('dist'));
+        .pipe(source(files.bundleFile))
+        .pipe(gulp.dest(files.distDir));
 });
 
-gulp.task('watch', ['clean', 'copy:app', 'build', 'copy:js', 'connect'], function () {
-  gulp.watch('src/**/*.jsx', ['copy:js']);
-  gulp.watch('app/**/*', ['copy:app']);
+gulp.task('watch', ['clean', 'copy:app', 'build', 'copy:dist', 'connect'], function () {
+  gulp.watch(files.srcDir + files.allFiles + '.jsx', ['build', 'copy:dist']);
+  gulp.watch(files.appDir + files.allFiles, ['copy:app']);
 });
 
 gulp.task('default', ['watch']);

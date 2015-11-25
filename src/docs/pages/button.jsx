@@ -17,7 +17,7 @@ export class Button extends React.Component {
 
   render() {
     return <div>
-      <ButtonComponent href="http://google.nl">Go Google</ButtonComponent>
+      <ButtonComponent className="push-right button--red" href="http://google.nl">Go Google</ButtonComponent>
       <ButtonComponent value={'Patrick ' + this.state.clickTracker} onClick={this.onClick.bind(this)} />
     </div>;
   }

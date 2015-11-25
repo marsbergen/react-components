@@ -19,7 +19,6 @@ export class Styleguide extends React.Component {
         </div>
       </div>
       <Footer />
-    </div>
-      ;
+    </div>;
   }
 }
