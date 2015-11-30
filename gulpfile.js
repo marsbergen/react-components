@@ -46,7 +46,12 @@ gulp.task('connect', ['clean', 'copy:app', 'build', 'copy:dist'], function () {
     })
 });
 
-gulp.task('build', ['clean', 'copy:app'], function () {
+gulp.task('build:static', ['clean'], function () {
+  return gulp.src(files.appDir + files.allFiles)
+    .pipe(gulp.dest(files.distDir));
+})
+
+gulp.task('build', ['clean', 'copy:app', 'build:static'], function () {
     return browserify({entries: files.mainFile, extensions: ['.jsx'], debug: true})
         .transform(babelify)
         .bundle()
